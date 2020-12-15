@@ -24,7 +24,7 @@ module.exports = (app) => {
         // setting user entry to be note.
         noteEntry = req.body
 
-        // parse db. ID of the note is equal to position in db.
+        // ID of the note is equal to position in db.
         noteEntry.id = db.length;
         // pushing note entry into array
         db.push(noteEntry);
@@ -33,6 +33,18 @@ module.exports = (app) => {
         writetoDB(db);
         return res.json(db);
 
+    })
+
+    app.delete("/api/notes/:id", (req,res) => {
+        let id = req.params.id;
+        for (let i = 0; i < db.length; i++) {
+            if (db[i].id == id) {
+                db.splice(i, 1);
+                writetoDB(db);
+                res.json(db)
+                break;
+            }
+        }
     })
 
 
